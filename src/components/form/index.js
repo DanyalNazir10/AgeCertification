@@ -1,6 +1,32 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  birthDay: yup
+    .number()
+    .transform((value) => (Number.isNaN(value) ? null : value))
+    .nullable()
+    .required("Birth day is required")
+    .min(1, "Birth day should be between 1 and 31")
+    .max(31, "Birth day should be between 1 and 31"),
+  birthMonth: yup
+    .number()
+    .transform((value) => (Number.isNaN(value) ? null : value))
+    .nullable()
+    .required("Birth month is required")
+    .min(1, "Birth month should be between 1 and 12")
+    .max(12, "Birth month should be between 1 and 12"),
+  birthYear: yup
+    .number()
+    .transform((value) => (Number.isNaN(value) ? null : value))
+    .nullable()
+    .required("Birth year is required")
+    .min(2000, "Birth month should be between 2000 and 2023")
+    .max(2023, "Birth month should be between 2000 and 2023"),
+});
 
 const Form = () => {
   const {
@@ -8,7 +34,7 @@ const Form = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({resolver: yupResolver(validationSchema)});
 
   const calculateAge = (dob) => {
     const today = new Date();
@@ -16,7 +42,7 @@ const Form = () => {
     return age;
   };
 
-  const validateAge = (data) => {
+  const verifyAge = (data) => {
     const { birthDay, birthMonth, birthYear } = data;
     const dob = new Date(`${birthYear}-${birthMonth}-${birthDay}`);
     const age = calculateAge(dob);
@@ -30,7 +56,7 @@ const Form = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(validateAge)}>
+      <form onSubmit={handleSubmit(verifyAge)}>
         <fieldset>
           <legend>Enter Your Date of Birth</legend>
 
@@ -39,17 +65,7 @@ const Form = () => {
             <input
               type="number"
               id="birthDay"
-              {...register("birthDay", {
-                required: "Birth day is required",
-                min: {
-                  value: 1,
-                  message: "Birth day should be between 1 and 31",
-                },
-                max: {
-                  value: 31,
-                  message: "Birth day should be between 1 and 31",
-                },
-              })}
+              {...register("birthDay")}
               placeholder="Enter your birth day"
             />
             <span className="error-message">{errors.birthDay?.message}</span>
@@ -59,17 +75,7 @@ const Form = () => {
             <input
               type="number"
               id="birthMonth"
-              {...register("birthMonth", {
-                required: "Birth month is required",
-                min: {
-                  value: 1,
-                  message: "Birth month should be between 1 and 12",
-                },
-                max: {
-                  value: 12,
-                  message: "Birth month should be between 1 and 12",
-                },
-              })}
+              {...register("birthMonth")}
               placeholder="Enter your birth month"
             />
             <span className="error-message">{errors.birthMonth?.message}</span>
@@ -79,17 +85,7 @@ const Form = () => {
             <input
               type="number"
               id="birthYear"
-              {...register("birthYear", {
-                required: "Birth year is required",
-                min: {
-                  value: 2000,
-                  message: "Birth month should be between 2000 and 2023",
-                },
-                max: {
-                  value: 2023,
-                  message: "Birth month should be between 2000 and 2023",
-                },
-              })}
+              {...register("birthYear")}
               placeholder="Enter your birth year"
             />
             <span className="error-message">{errors.birthYear?.message}</span>
