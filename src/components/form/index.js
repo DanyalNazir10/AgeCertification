@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
 const Form = () => {
-  const { register, control, handleSubmit } = useForm();
+  const { register, control, handleSubmit, formState: {errors} } = useForm();
 
   const validateAge = (data) => {
     console.log("Form Submitted with data: ", data);
@@ -14,6 +14,7 @@ const Form = () => {
         <fieldset>
           <legend>Enter Your Date of Birth</legend>
 
+          <div className="form-items">
           <label htmlFor="birthDay">Birth Day</label>
           <input
             type="number"
@@ -31,7 +32,9 @@ const Form = () => {
             })}
             placeholder="Enter your birth day"
           />
-
+          <span className="error-message">{errors.birthDay?.message}</span>
+          </div>
+          <div className="form-items">
           <label htmlFor="birthMonth">Birth Month</label>
           <input
             type="number"
@@ -49,7 +52,9 @@ const Form = () => {
             })}
             placeholder="Enter your birth month"
           />
-
+          <span className="error-message">{errors.birthMonth?.message}</span>
+          </div>
+          <div className="form-items">
           <label htmlFor="birthYear">Birth Year</label>
           <input
             type="number"
@@ -67,7 +72,8 @@ const Form = () => {
             })}
             placeholder="Enter your birth year"
           />
-
+          <span className="error-message">{errors.birthYear?.message}</span>
+          </div>
           <input type="submit" value={"Submit"} />
         </fieldset>
       </form>
