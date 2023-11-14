@@ -19,6 +19,15 @@ const Form = () => {
             type="number"
             id="birthDay"
             {...register("birthDay", {
+                required: "Birth day is required",
+                min:{
+                    value: 1,
+                    message: "Birth day should be between 1 and 31"
+                }, 
+                max:{
+                    value: 31,
+                    message: "Birth day should be between 1 and 31"
+                }
             })}
             placeholder="Enter your birth day"
           />
@@ -27,7 +36,17 @@ const Form = () => {
           <input
             type="number"
             id="birthMonth"
-            {...register("birthMonth")}
+            {...register("birthMonth", {
+                required: "Birth month is required",
+                min:{
+                    value: 1,
+                    message: "Birth month should be between 1 and 12"
+                }, 
+                max:{
+                    value: 12,
+                    message: "Birth month should be between 1 and 12"
+                }
+            })}
             placeholder="Enter your birth month"
           />
 
@@ -35,7 +54,17 @@ const Form = () => {
           <input
             type="number"
             id="birthYear"
-            {...register("birthYear")}
+            {...register("birthYear", {
+                required: "Birth year is required",
+                min:{
+                    value: 2000,
+                    message: "Birth month should be between 2000 and 2023"
+                }, 
+                max:{
+                    value: 2023,
+                    message: "Birth month should be between 2000 and 2023"
+                }
+            })}
             placeholder="Enter your birth year"
           />
 
